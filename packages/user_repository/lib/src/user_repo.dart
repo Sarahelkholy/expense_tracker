@@ -1,6 +1,6 @@
-import '../expense_repository.dart';
+import '../user_repository.dart';
 
-abstract class ExpenseRepository {
+abstract class UserRepository {
   Future<void> createUser(User user);
 
   Future<User> getUser(String userId);

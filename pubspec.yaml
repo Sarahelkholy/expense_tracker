@@ -33,7 +33,7 @@ dependencies:
   expense_repository:
     path: packages/expense_repository
   user_repository:
-    path: packages/user_repository  
+    path: packages/user_repository
   firebase_core: ^4.1.1
   fl_chart: ^1.1.1
   flutter:

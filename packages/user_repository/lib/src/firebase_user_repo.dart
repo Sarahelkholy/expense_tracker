@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../expense_repository.dart';
+import '../user_repository.dart';
 
-class FirebaseUserRepo implements ExpenseRepository {
+class FirebaseUserRepo implements UserRepository {
   final userCollection = FirebaseFirestore.instance.collection('user');
 
   @override
