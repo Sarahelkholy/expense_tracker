@@ -1,5 +1,4 @@
 import 'package:expense_tracker/screens/stats/presentation/widgets/my_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

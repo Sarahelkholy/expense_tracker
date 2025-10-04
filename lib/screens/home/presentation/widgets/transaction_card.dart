@@ -1,8 +1,10 @@
+import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class TransactionCard extends StatelessWidget {
-  final Map tObj;
+  final Expense tObj;
   const TransactionCard({super.key, required this.tObj});
 
   @override
@@ -27,15 +29,15 @@ class TransactionCard extends StatelessWidget {
                       height: 45.h,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: tObj['color'],
+                        color: Color(tObj.category.color),
                       ),
                     ),
-                    tObj['icon'],
+                    Image.asset('assets/${tObj.category.icon}.png', scale: 2),
                   ],
                 ),
                 SizedBox(width: 10.w),
                 Text(
-                  tObj['name'],
+                  tObj.category.name,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: Theme.of(context).colorScheme.onSurface,
@@ -48,7 +50,7 @@ class TransactionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  tObj['totalAmount'],
+                  "${tObj.amount}.00 EGP",
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
@@ -56,7 +58,7 @@ class TransactionCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  tObj['date'],
+                  DateFormat('dd/MM/yyyy').format(tObj.date),
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400,

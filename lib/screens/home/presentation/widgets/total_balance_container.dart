@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TotalBalanceContainer extends StatelessWidget {
-  const TotalBalanceContainer({super.key});
+  final double minusAmount;
+  const TotalBalanceContainer({super.key, required this.minusAmount});
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +128,7 @@ class TotalBalanceContainer extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '\$ 800.00',
+                          '${minusAmount}.00 EGP',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,

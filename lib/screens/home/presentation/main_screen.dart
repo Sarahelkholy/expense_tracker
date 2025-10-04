@@ -1,4 +1,4 @@
-import 'package:expense_tracker/data/data.dart';
+import 'package:expense_repository/expense_repository.dart';
 import 'package:expense_tracker/screens/home/presentation/widgets/total_balance_container.dart';
 import 'package:expense_tracker/screens/home/presentation/widgets/transaction_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final double minusAmount;
+  final List<Expense> expenses;
+
+  MainScreen(this.expenses, {super.key})
+    : minusAmount = expenses.fold(0.0, (sum, e) => sum + e.amount);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,7 @@ class MainScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15.h),
-            TotalBalanceContainer(),
+            TotalBalanceContainer(minusAmount: minusAmount),
             SizedBox(height: 15.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,9 +99,10 @@ class MainScreen extends StatelessWidget {
             SizedBox(height: 15.h),
             Expanded(
               child: ListView.builder(
-                itemCount: transactionsArr.length,
+                itemCount: expenses.length,
                 itemBuilder: (context, index) {
-                  final tObj = transactionsArr[index];
+                  final tObj = expenses[index];
+
                   return Padding(
                     padding: EdgeInsetsGeometry.only(bottom: 10.h),
 
