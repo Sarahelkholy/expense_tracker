@@ -5,8 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TotalBalanceContainer extends StatelessWidget {
-  final double minusAmount;
-  const TotalBalanceContainer({super.key, required this.minusAmount});
+  final double totalexpenses;
+  final double lastIncome;
+  final double balance;
+
+  const TotalBalanceContainer({
+    super.key,
+    required this.totalexpenses,
+    required this.lastIncome,
+    required this.balance,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +51,7 @@ class TotalBalanceContainer extends StatelessWidget {
             ),
           ),
           Text(
-            '\$ 2800.00',
+            '${balance}.00 EGP',
             style: TextStyle(
               fontSize: 30.sp,
               fontWeight: FontWeight.bold,
@@ -78,7 +86,7 @@ class TotalBalanceContainer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Income',
+                          'last Income',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
@@ -86,7 +94,7 @@ class TotalBalanceContainer extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '\$ 2000.00',
+                          '${lastIncome}.00 EGP',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
@@ -128,7 +136,7 @@ class TotalBalanceContainer extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${minusAmount}.00 EGP',
+                          '${totalexpenses}.00 EGP',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,

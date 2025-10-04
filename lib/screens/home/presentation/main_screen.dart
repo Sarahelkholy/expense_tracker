@@ -1,10 +1,14 @@
 import 'package:expense_repository/expense_repository.dart';
 import 'package:expense_tracker/screens/home/presentation/widgets/total_balance_container.dart';
 import 'package:expense_tracker/screens/home/presentation/widgets/transaction_card.dart';
+
+import 'package:expense_tracker/screens/profile/blocs/user_bloc/user_bloc.dart';
 import 'package:expense_tracker/screens/profile/presentation/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:user_repository/user_repository.dart';
 
 class MainScreen extends StatelessWidget {
   final double minusAmount;
@@ -75,8 +79,10 @@ class MainScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const ProfileScreen(),
+                            builder: (BuildContext context) => BlocProvider(
+                              create: (context) => UserBloc(FirebaseUserRepo()),
+                              child: const ProfileScreen(),
+                            ),
                           ),
                         );
                       },
@@ -86,7 +92,11 @@ class MainScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15.h),
-            TotalBalanceContainer(minusAmount: minusAmount),
+            TotalBalanceContainer(
+              totalexpenses: minusAmount,
+              balance: 0,
+              lastIncome: 0,
+            ),
             SizedBox(height: 15.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

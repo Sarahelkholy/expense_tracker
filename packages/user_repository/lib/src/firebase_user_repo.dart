@@ -63,4 +63,14 @@ class FirebaseUserRepo implements UserRepository {
       rethrow;
     }
   }
+
+  @override
+  Stream<User> userStream(String userId) {
+    return userCollection.doc(userId).snapshots().map((snap) {
+      if (!snap.exists || snap.data() == null) return User.empty;
+      final data = snap.data()!;
+      // convert fire-store map -> UserEntity -> User (adapt to your entity code)
+      return User.fromEntity(UserEntity.fromDocument(data));
+    });
+  }
 }
