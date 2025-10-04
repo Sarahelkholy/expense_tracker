@@ -1,6 +1,7 @@
 import 'package:expense_repository/expense_repository.dart';
 import 'package:expense_tracker/screens/home/presentation/widgets/total_balance_container.dart';
 import 'package:expense_tracker/screens/home/presentation/widgets/transaction_card.dart';
+import 'package:expense_tracker/screens/profile/presentation/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,7 +67,22 @@ class MainScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(children: [Icon(CupertinoIcons.settings)]),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(CupertinoIcons.settings),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const ProfileScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
             SizedBox(height: 15.h),
