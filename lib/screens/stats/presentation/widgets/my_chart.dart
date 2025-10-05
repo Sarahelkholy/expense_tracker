@@ -86,8 +86,6 @@ class MyChart extends StatelessWidget {
           );
         }),
       ),
-      swapAnimationDuration: const Duration(milliseconds: 600),
-      swapAnimationCurve: Curves.easeOutCubic,
     );
   }
 
