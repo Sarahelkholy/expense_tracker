@@ -27,6 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     totalExpenses = widget.expenses.fold(0.0, (sum, e) => sum + e.amount);
+
     _initUserIdAndLoad();
   }
 
@@ -64,13 +65,16 @@ class _MainScreenState extends State<MainScreen> {
               builder: (context, state) {
                 String displayName = 'User';
                 double totalIncome = 0.0;
-
                 double lastIncome = 0.0;
 
                 if (state is UserSuccess) {
                   final user = state.user;
                   displayName = user.name.isNotEmpty ? user.name : displayName;
-                  totalIncome = user.totalIncome.toDouble();
+                  totalIncome =
+                      user.totalIncome.toDouble() == user.lastIncome.toDouble()
+                      ? user.lastIncome.toDouble()
+                      : user.lastIncome.toDouble() +
+                            user.totalIncome.toDouble();
                   lastIncome = user.lastIncome.toDouble();
                 }
 

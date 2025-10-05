@@ -155,7 +155,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _isCreating = false;
             _userExists = true;
             _user = state.user;
-
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Profile created')));
             Navigator.of(context).pop();
           }
         }
