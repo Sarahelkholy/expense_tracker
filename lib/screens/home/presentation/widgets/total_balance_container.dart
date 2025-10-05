@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TotalBalanceContainer extends StatelessWidget {
-  final double totalexpenses;
+  final double totalExpenses;
   final double lastIncome;
   final double balance;
 
   const TotalBalanceContainer({
     super.key,
-    required this.totalexpenses,
+    required this.totalExpenses,
     required this.lastIncome,
     required this.balance,
   });
@@ -51,7 +51,7 @@ class TotalBalanceContainer extends StatelessWidget {
             ),
           ),
           Text(
-            '${balance}.00 EGP',
+            '$balance EGP',
             style: TextStyle(
               fontSize: 30.sp,
               fontWeight: FontWeight.bold,
@@ -94,7 +94,7 @@ class TotalBalanceContainer extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${lastIncome}.00 EGP',
+                          '$lastIncome EGP',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
@@ -136,7 +136,7 @@ class TotalBalanceContainer extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${totalexpenses}.00 EGP',
+                          '$totalExpenses EGP',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,

@@ -81,6 +81,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  expense_repository:
+    dependency: "direct main"
+    description:
+      path: "../expense_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   fake_async:
     dependency: transitive
     description:

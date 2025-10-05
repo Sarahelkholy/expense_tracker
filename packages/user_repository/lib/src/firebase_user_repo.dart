@@ -32,14 +32,18 @@ class FirebaseUserRepo implements UserRepository {
     }
   }
 
-  @override
   Future<void> updateUser(User user) async {
     try {
-      await userCollection
-          .doc(user.userId)
-          .update(user.toEntity().toDocument());
-    } catch (e) {
-      log(e.toString());
+      final docRef = userCollection.doc(user.userId);
+
+      // Only update the fields that should change via "updateUser" (eg. name).
+      // Avoid writing totalIncome/lastIncome here unless explicitly intended.
+      await docRef.update({
+        'name': user.name,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e, st) {
+      log('updateUser failed: $e', stackTrace: st);
       rethrow;
     }
   }
@@ -47,30 +51,42 @@ class FirebaseUserRepo implements UserRepository {
   @override
   Future<void> addIncome(String userId, int amount) async {
     try {
-      final userDoc = await userCollection.doc(userId).get();
-      if (!userDoc.exists) return;
+      final docRef = userCollection.doc(userId);
 
-      final currentData = UserEntity.fromDocument(userDoc.data()!);
-      final newTotal = currentData.totalIncome + amount;
+      await FirebaseFirestore.instance.runTransaction((tx) async {
+        final snapshot = await tx.get(docRef);
 
-      await userCollection.doc(userId).update({
-        'lastIncome': amount,
-        'totalIncome': newTotal,
-        'updatedAt': DateTime.now(),
-      });
-    } catch (e) {
-      log(e.toString());
+        if (!snapshot.exists) {
+          // If user doc doesn't exist, create it with initial values
+          tx.set(docRef, {
+            'userId': userId,
+            'name': '',
+            'totalIncome': amount,
+            'lastIncome': amount,
+            'updatedAt': FieldValue.serverTimestamp(),
+          });
+          return;
+        }
+
+        final data = snapshot.data();
+        // handle data possibly being null
+        final currentTotalRaw = data?['totalIncome'] ?? 0;
+        // safe conversion: allow int or double
+        final currentTotal = (currentTotalRaw is num)
+            ? currentTotalRaw.toInt()
+            : int.tryParse('$currentTotalRaw') ?? 0;
+
+        final newTotal = currentTotal + amount;
+
+        tx.update(docRef, {
+          'lastIncome': amount,
+          'totalIncome': newTotal,
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+      }, timeout: const Duration(seconds: 15));
+    } catch (e, st) {
+      log('addIncome failed: $e', stackTrace: st);
       rethrow;
     }
-  }
-
-  @override
-  Stream<User> userStream(String userId) {
-    return userCollection.doc(userId).snapshots().map((snap) {
-      if (!snap.exists || snap.data() == null) return User.empty;
-      final data = snap.data()!;
-      // convert fire-store map -> UserEntity -> User (adapt to your entity code)
-      return User.fromEntity(UserEntity.fromDocument(data));
-    });
   }
 }

@@ -27,12 +27,22 @@ class UserEntity {
   }
 
   static UserEntity fromDocument(Map<String, dynamic> doc) {
+    final totalRaw = doc['totalIncome'] ?? 0;
+    final lastRaw = doc['lastIncome'] ?? 0;
+    final updatedAtRaw = doc['updatedAt'];
+
     return UserEntity(
-      userId: doc['userId'],
-      name: doc['name'],
-      totalIncome: doc['totalIncome'],
-      lastIncome: doc['lastIncome'],
-      updatedAt: (doc['updatedAt'] as Timestamp).toDate(),
+      userId: doc['userId'] as String? ?? '',
+      name: doc['name'] as String? ?? '',
+      totalIncome: (totalRaw is num)
+          ? totalRaw.toInt()
+          : int.tryParse('$totalRaw') ?? 0,
+      lastIncome: (lastRaw is num)
+          ? lastRaw.toInt()
+          : int.tryParse('$lastRaw') ?? 0,
+      updatedAt: updatedAtRaw is Timestamp
+          ? (updatedAtRaw as Timestamp).toDate()
+          : DateTime.now(),
     );
   }
 }

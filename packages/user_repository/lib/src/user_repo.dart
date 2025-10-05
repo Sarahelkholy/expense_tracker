@@ -8,6 +8,4 @@ abstract class UserRepository {
   Future<void> updateUser(User user);
 
   Future<void> addIncome(String userId, int amount);
-
-  Stream<User> userStream(String userId);
 }
